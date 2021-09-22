@@ -2,16 +2,29 @@ import argparse
 import logging
 import os
 import sys
+from . import html,css,js
 
+import json
+
+def readJSON(file_path, **kwargs):
+    f = open(file_path)
+    json_data = json.load(f)
+    report = html.create_html_report(json_data)
+    print(report)
 
 def run(args):
     if args.json:
         if os.path.exists(args.json):
-            print(args.json)
+            if args.output_file is not None:
+                # print("creating output file %s"%args.output_file)
+                pass
+            else : 
+                print("no output file argument given")
+            readJSON(args.json)
         else:
             print("bad boi ...")
-        if os.path.exists(args.output_file):
-            print("good boi ...")
+                  
+
 
 def main():
     parser = argparse.ArgumentParser(

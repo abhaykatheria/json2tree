@@ -6,8 +6,11 @@ head = """
 rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,300&display=swap"
 rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
-%s \n
+\n
+
+%s
 </head>
+
 <body>
 <div class="header">
 <img src="https://raw.githubusercontent.com/tern-tools/tern/master/docs/img/tern_logo.png" height="60px">\n
@@ -15,11 +18,15 @@ rel="stylesheet">
 </div>\n
 <div style="font-family: \'Inconsolata\', monospace;">
 <p>
-Tern at %s
+Tern at
 <p>
-The following report was generated for "%s" image.
+The REPORT
 </div>
 """
+from .js import js
+from .css import css
+
+
 def list_handler(list_obj, indent):
     '''Write html code for lists in report dictionary'''
     html_string = ''
@@ -84,37 +91,16 @@ def report_dict_to_html(dict_obj):
     html_string = ''
     html_string = html_string + '<ul class ="myUL"> \n'
     html_string = html_string + \
-        '<li><span class="caret">REPORT DETAILS</span> \n'
+        '<li><span class="caret">REPORT</span> \n'
     html_string = html_string + dict_handler(dict_obj, 0)
     html_string = html_string + '</li></ul> \n'
     return html_string
 
-
-def write_licenses(image_obj_list):
-    '''Adds licenses to top of the page'''
-    licenses = get_licenses_only(image_obj_list)
-    html_string = ''
-    html_string = html_string + '<ul class ="myUL"> \n'
-    html_string = html_string + '<li><span class="caret">Summary of \
-        Licenses Found</span> \n'
-    html_string = html_string + '<ul class ="nested"> \n'
-    for lic in licenses:
-        html_string = html_string + \
-            '<li style="font-family: \'Inconsolata\' , monospace;" >' + \
-            lic + '</li>\n'
-    html_string = html_string + '</ul></li></ul> \n'
-    return html_string
-
-
-def create_html_report(report_dict, image_obj_list):
+def create_html_report(report_dict):
     '''Return the html report as a string'''
-    logger.debug("Creating HTML report...")
+    # logger.debug("Creating HTML report...")
     report = ''
-    report = report + '\n' + head % (css, get_tool_version(),
-                                    report_dict['images'][0]['image']['name']
-                                    + ':' +
-                                    report_dict['images'][0]['image']['tag'])
-    report = report + '\n' + write_licenses(image_obj_list)
+    report = report + '\n' + head % css
     report = report + '\n' + report_dict_to_html(report_dict)
     report = report + '\n' + js
     report = report + '\n' + '</body>\n</html>\n'
