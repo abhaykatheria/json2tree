@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&family=Oswald&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
+
+
+
+
+    <style>
+        ul,
+        #myUL {
+            list-style-type: none;
+        }
+        
+        li {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        
+        #myUL {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .caret {
+            cursor: pointer;
+            user-select: none;
+            font-family: 'Inconsolata', monospace;
+        }
+        
+        .caret::before {
+            content: " \25B6";
+            display: inline-block;
+            margin-right: 6px;
+        }
+        
+        .caret-down::before {
+            transform: rotate(90deg);
+        }
+        
+        .nested {
+            display: none;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        .header {
+            text-align: left;
+            background: #f1f1f1;
+        }
+        
+        .text-c {
+            color: green;
+            font-family: 'Inconsolata', monospace;
+        }
+        
+        .text-h {
+            font-family: 'Inconsolata', monospace;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="header">
+        <img src="https://raw.githubusercontent.com/tern-tools/tern/master/docs/img/tern_logo.png" height="60px">
+
+        <br>
+    </div>
+
+    <div style="font-family: 'Inconsolata', monospace;">
+        <p>
+            Tern at
+            <p>
+                The REPORT
+    </div>
+
+    <ul class="myUL">
+        <li><span class="caret">REPORT</span>
+            <ul class="nested">
+                <li><span class="caret">glossary : </span>
+                    <ul class="nested">
+                        <li><span class="text-h">title : </span><span class="text-c">example glossary</span></li>
+                        <li><span class="caret">GlossDiv : </span>
+                            <ul class="nested">
+                                <li><span class="text-h">title : </span><span class="text-c">S</span></li>
+                                <li><span class="caret">GlossList : </span>
+                                    <ul class="nested">
+                                        <li><span class="caret">GlossEntry : </span>
+                                            <ul class="nested">
+                                                <li><span class="text-h">ID : </span><span class="text-c">SGML</span></li>
+                                                <li><span class="text-h">SortAs : </span><span class="text-c">SGML</span></li>
+                                                <li><span class="text-h">GlossTerm : </span><span class="text-c">Standard Generalized Markup Language</span></li>
+                                                <li><span class="text-h">Acronym : </span><span class="text-c">SGML</span></li>
+                                                <li><span class="text-h">Abbrev : </span><span class="text-c">ISO 8879:1986</span></li>
+                                                <li><span class="caret">GlossDef : </span>
+                                                    <ul class="nested">
+                                                        <li><span class="text-h">para : </span><span class="text-c">A meta-markup language, used to create markup languages such as DocBook.</span></li>
+                                                        <li><span class="caret">GlossSeeAlso : [2]</span>
+                                                            <ul class="nested">
+                                                                <li><span class="text-c">GML</span>
+                                                                </li>
+                                                                <li><span class="text-c">XML</span>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li><span class="text-h">GlossSee : </span><span class="text-c">markup</span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <script>
+        var toggler = document.getElementsByClassName("caret");
+        var i;
+        for (i = 0; i < toggler.length; i++) {
+            toggler[i].addEventListener("click", function() {
+                this.parentElement.querySelector(".nested").classList.toggle("active");
+                this.classList.toggle("caret-down");
+            })
+        }
+    </script>
+
+
+</body>
+
+</html>

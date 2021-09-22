@@ -17,7 +17,6 @@ li {
 }
 .caret::before {
     content: " \\25B6";
-    color: ;
     display: inline-block;
 margin-right: 6px;
 }
