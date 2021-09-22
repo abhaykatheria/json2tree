@@ -1,143 +1,295 @@
+
+
 <!DOCTYPE html>
-
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&family=Oswald&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&family=Oswald&display=swap"
+rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,300&display=swap"
+rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
 
 
 
+ 
+<style>
+body {
+    margin: 30px;
+    font-family: sans-serif;
+}
 
-    <style>
-        ul,
-        #myUL {
-            list-style-type: none;
-        }
-        
-        li {
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-        
-        #myUL {
-            margin: 0;
-            padding: 0;
-        }
-        
-        .caret {
-            cursor: pointer;
-            user-select: none;
-            font-family: 'Inconsolata', monospace;
-        }
-        
-        .caret::before {
-            content: " \25B6";
-            display: inline-block;
-            margin-right: 6px;
-        }
-        
-        .caret-down::before {
-            transform: rotate(90deg);
-        }
-        
-        .nested {
-            display: none;
-        }
-        
-        .active {
-            display: block;
-        }
-        
-        .header {
-            text-align: left;
-            background: #f1f1f1;
-        }
-        
-        .text-c {
-            color: green;
-            font-family: 'Inconsolata', monospace;
-        }
-        
-        .text-h {
-            font-family: 'Inconsolata', monospace;
-        }
-    </style>
+#fontSizeWrapper {
+    font-size: 16px;
+}
 
+#fontSize {
+    width: 100px;
+    font-size: 1em;
+}
+
+
+/* ————————————————————–
+    Tree core styles
+  */
+
+.tree {
+    margin: 1em;
+}
+
+.tree input {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+.tree input~ul {
+    display: none;
+}
+
+.tree input:checked~ul {
+    display: block;
+}
+
+
+/* ————————————————————–
+    Tree rows
+  */
+
+.tree li {
+    line-height: 1.2;
+    position: relative;
+    padding: 0 0 1em 1em;
+}
+
+.tree ul li {
+    padding: 1em 0 0 1em;
+}
+
+.tree>li:last-child {
+    padding-bottom: 0;
+}
+
+
+/* ————————————————————–
+    Tree labels
+  */
+
+.tree_label {
+    position: relative;
+    display: inline-block;
+    background: #fff;
+}
+
+label.tree_label {
+    cursor: pointer;
+}
+
+label.tree_label:hover {
+    color: #666;
+}
+
+
+/* ————————————————————–
+    Tree expanded icon
+  */
+
+label.tree_label:before {
+    background: #000;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+    float: left;
+    margin: 0 1em 0 -2em;
+    width: 1em;
+    height: 1em;
+    border-radius: 1em;
+    content: '+';
+    text-align: center;
+    line-height: .9em;
+}
+
+ :checked~label.tree_label:before {
+    content: '–';
+}
+
+
+/* ————————————————————–
+    Tree branches
+  */
+
+.tree li:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -.5em;
+    display: block;
+    width: 0;
+    border-left: 1px solid #777;
+    content: "";
+}
+
+.tree_label:after {
+    position: absolute;
+    top: 0;
+    left: -1.5em;
+    display: block;
+    height: 0.5em;
+    width: 1em;
+    border-bottom: 1px solid #777;
+    border-left: 1px solid #777;
+    border-radius: 0 0 0 .3em;
+    content: '';
+}
+
+label.tree_label:after {
+    border-bottom: 0;
+}
+
+ :checked~label.tree_label:after {
+    border-radius: 0 .3em 0 0;
+    border-top: 1px solid #777;
+    border-right: 1px solid #777;
+    border-bottom: 0;
+    border-left: 0;
+    bottom: 0;
+    top: 0.5em;
+    height: auto;
+}
+
+.tree li:last-child:before {
+    height: 1em;
+    bottom: auto;
+}
+
+.tree>li:last-child:before {
+    display: none;
+}
+
+.tree_custom {
+    display: block;
+    background: #eee;
+    padding: 1em;
+    border-radius: 0.3em;
+}
+</style>
 
 </head>
 
 <body>
-    <div class="header">
-        <img src="https://raw.githubusercontent.com/tern-tools/tern/master/docs/img/tern_logo.png" height="60px">
+<div class="header">
+<img src="https://raw.githubusercontent.com/tern-tools/tern/master/docs/img/tern_logo.png" height="60px">
 
-        <br>
-    </div>
+<br>
+</div>
 
-    <div style="font-family: 'Inconsolata', monospace;">
-        <p>
-            Tern at
-            <p>
-                The REPORT
-    </div>
+<div style="font-family: 'Inconsolata', monospace;">
+<p>
+Tern at
+<p>
+The REPORT
+</div>
 
-    <ul class="myUL">
-        <li><span class="caret">REPORT</span>
-            <ul class="nested">
-                <li><span class="caret">glossary : </span>
-                    <ul class="nested">
-                        <li><span class="text-h">title : </span><span class="text-c">example glossary</span></li>
-                        <li><span class="caret">GlossDiv : </span>
-                            <ul class="nested">
-                                <li><span class="text-h">title : </span><span class="text-c">S</span></li>
-                                <li><span class="caret">GlossList : </span>
-                                    <ul class="nested">
-                                        <li><span class="caret">GlossEntry : </span>
-                                            <ul class="nested">
-                                                <li><span class="text-h">ID : </span><span class="text-c">SGML</span></li>
-                                                <li><span class="text-h">SortAs : </span><span class="text-c">SGML</span></li>
-                                                <li><span class="text-h">GlossTerm : </span><span class="text-c">Standard Generalized Markup Language</span></li>
-                                                <li><span class="text-h">Acronym : </span><span class="text-c">SGML</span></li>
-                                                <li><span class="text-h">Abbrev : </span><span class="text-c">ISO 8879:1986</span></li>
-                                                <li><span class="caret">GlossDef : </span>
-                                                    <ul class="nested">
-                                                        <li><span class="text-h">para : </span><span class="text-c">A meta-markup language, used to create markup languages such as DocBook.</span></li>
-                                                        <li><span class="caret">GlossSeeAlso : [2]</span>
-                                                            <ul class="nested">
-                                                                <li><span class="text-c">GML</span>
-                                                                </li>
-                                                                <li><span class="text-c">XML</span>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li><span class="text-h">GlossSee : </span><span class="text-c">markup</span></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-    </ul>
+<ul class ="tree"> 
+<li> <input type="checkbox" checked="checked" id="c0"/> <label class="tree_label" for="c0">ROOT</label> 
+<ul> 
+<li><input type="checkbox" checked="checked" id="c1" /><label for="c1" class="tree_label">glossary</label> 
+   <ul> 
+  <li><input type="checkbox" checked="checked" id="c3" /><label for="c3" class="tree_label">title</label> 
+ <ul><li><span class="tree_label">example glossary</span></li></ul> </li>
+  <li><input type="checkbox" checked="checked" id="c4" /><label for="c4" class="tree_label">GlossDiv</label> 
+     <ul> 
+    <li><input type="checkbox" checked="checked" id="c6" /><label for="c6" class="tree_label">title</label> 
+ <ul><li><span class="tree_label">S</span></li></ul> </li>
+    <li><input type="checkbox" checked="checked" id="c7" /><label for="c7" class="tree_label">GlossList</label> 
+       <ul> 
+      <li><input type="checkbox" checked="checked" id="c9" /><label for="c9" class="tree_label">GlossEntry</label> 
+         <ul> 
+        <li><input type="checkbox" checked="checked" id="c11" /><label for="c11" class="tree_label">ID</label> 
+ <ul><li><span class="tree_label">SGML</span></li></ul> </li>
+        <li><input type="checkbox" checked="checked" id="c12" /><label for="c12" class="tree_label">SortAs</label> 
+ <ul><li><span class="tree_label">SGML</span></li></ul> </li>
+        <li><input type="checkbox" checked="checked" id="c13" /><label for="c13" class="tree_label">GlossTerm</label> 
+ <ul><li><span class="tree_label">Standard Generalized Markup Language</span></li></ul> </li>
+        <li><input type="checkbox" checked="checked" id="c14" /><label for="c14" class="tree_label">Acronym</label> 
+ <ul><li><span class="tree_label">SGML</span></li></ul> </li>
+        <li><input type="checkbox" checked="checked" id="c15" /><label for="c15" class="tree_label">Abbrev</label> 
+ <ul><li><span class="tree_label">ISO 8879:1986</span></li></ul> </li>
+        <li><input type="checkbox" checked="checked" id="c16" /><label for="c16" class="tree_label">GlossDef</label> 
+           <ul> 
+          <li><input type="checkbox" checked="checked" id="c18" /><label for="c18" class="tree_label">para</label> 
+ <ul><li><span class="tree_label">A meta-markup language, used to create markup languages such as DocBook.</span></li></ul> </li>
+          <li><input type="checkbox" checked="checked" id="c19" /><label for="c19" class="tree_label">GlossSeeAlso</label> 
+           <ul> 
+             <li><input type="checkbox" checked="checked" id="c21" /><label for="c21" class="tree_label">0</label> 
+ <ul><li><span class="tree_label">GML</span></li></ul> </li>
+            <li><input type="checkbox" checked="checked" id="c22" /><label for="c22" class="tree_label">1</label> 
+ <ul><li><span class="tree_label">XML</span></li></ul> </li>
+          </ul> 
+           </li> 
+           </ul> 
+         </li> 
+         <li><input type="checkbox" checked="checked" id="c17" /><label for="c17" class="tree_label">GlossSee</label> 
+ <ul><li><span class="tree_label">markup</span></li></ul> </li>
+        </ul> 
+       </li> 
+       </ul> 
+     </li> 
+     </ul> 
+   </li> 
+   </ul> 
+ </li> 
+ </ul> 
+ </li></ul> 
 
 
-    <script>
-        var toggler = document.getElementsByClassName("caret");
-        var i;
-        for (i = 0; i < toggler.length; i++) {
-            toggler[i].addEventListener("click", function() {
-                this.parentElement.querySelector(".nested").classList.toggle("active");
-                this.classList.toggle("caret-down");
-            })
+<Script type="text/javascript">
+    function isNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
+    function setFontSize(el) {
+        var fontSize = el.val();
+
+        if (isNumber(fontSize) && fontSize >= 0.5) {
+            $('body').css({
+                fontSize: fontSize + 'em'
+            });
+        } else if (fontSize) {
+            el.val('1');
+            $('body').css({
+                fontSize: '1em'
+            });
         }
-    </script>
+    }
 
+    $(function() {
+
+        $('#fontSize')
+            .bind('change', function() {
+                setFontSize($(this));
+            })
+            .bind('keyup', function(e) {
+                if (e.keyCode == 27) {
+                    $(this).val('1');
+                    $('body').css({
+                        fontSize: '1em'
+                    });
+                } else {
+                    setFontSize($(this));
+                }
+            });
+
+        $(window)
+            .bind('keyup', function(e) {
+                if (e.keyCode == 27) {
+                    $('#fontSize').val('1');
+                    $('body').css({
+                        fontSize: '1em'
+                    });
+                }
+            });
+
+    });
+</Script>
 
 </body>
-
 </html>
+

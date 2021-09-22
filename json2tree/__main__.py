@@ -2,14 +2,14 @@ import argparse
 import logging
 import os
 import sys
-from . import html,css,js
+from . import html_1,css,js
 
 import json
 
 def readJSON(file_path, **kwargs):
     f = open(file_path)
     json_data = json.load(f)
-    report = html.create_html_report(json_data)
+    report = html_1.create_html_report(json_data)
     print(report)
 
 def run(args):
