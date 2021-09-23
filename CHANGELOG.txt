@@ -1,5 +1,5 @@
 Change Log
 ============
-0.0.1(Day of Release)
+0.0.1(23/09/2021)
 -----------------
 - First Release
