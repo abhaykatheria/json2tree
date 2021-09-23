@@ -4,7 +4,7 @@ setup(
     name='json2tree',
     version='0.1.0',    
     description='Python package to create html tree view for json files.',
-    long_description=open('README.txt').read() + '\n\n' + open('CHANGELOG.txt').read(),
+    long_description=open('README.md').read() + '\n\n' + open('CHANGELOG.txt').read(),
 
     url='https://github.com/abhaykatheria/json2tree',
     author='Abhay Katheria and Mithilesh tiwari',

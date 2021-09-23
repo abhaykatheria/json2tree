@@ -95,7 +95,7 @@ label.tree_label:before {
 }
 
  :checked~label.tree_label:before {
-    content: '–';
+    content: '-';
 }
 
 

@@ -2,29 +2,36 @@ import argparse
 import logging
 import os
 import sys
-from . import html_1,css,js
-
+from json2tree.theme_1 import html as html_1
+from json2tree.theme_2 import html as html_2
 import json
 
-def readJSON(file_path, **kwargs):
+def readJSON(file_path, theme):
     f = open(file_path)
     json_data = json.load(f)
-    report = html_1.create_html_report(json_data)
-    print(report)
+    html_string = ''
+    if(theme=='1'):
+        html_string = html_1.create_html_report(json_data)
+    elif(theme=='2'):
+        html_string = html_2.create_html_report(json_data)
+    else:
+        html_string = html_1.create_html_report(json_data)
+    return html_string
+
+def create_output_file(output_file_path, html_string):
+    with open(output_file_path, 'w') as f:
+        f.write(html_string)
+        f.close()
 
 def run(args):
     if args.json:
         if os.path.exists(args.json):
-            if args.output_file is not None:
-                # print("creating output file %s"%args.output_file)
-                pass
-            else : 
-                print("no output file argument given")
-            readJSON(args.json)
+            if args.output_file is None:
+                sys.stderr.write("Output file not specified")
+            html_string = readJSON(args.json, args.theme)
+            create_output_file(args.output_file, html_string)        
         else:
-            print("bad boi ...")
-                  
-
+            sys.stderr.write("Input file not specified")
 
 def main():
     parser = argparse.ArgumentParser(
@@ -37,6 +44,9 @@ def main():
     parser.add_argument('-j', '--json',
                         help="Input JSON file"
                         "give the path to the JSON file")
+    parser.add_argument('-t', '--theme',
+                        help="Select the theme to use. To know about theme visit"
+                        "official repository")
     parser.add_argument('-o', '--output-file',
                         help="give the path of the ouput file")
     py_ver = sys.version.replace('\n', '').split('[')[0]
