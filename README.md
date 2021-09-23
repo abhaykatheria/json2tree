@@ -1,3 +1,6 @@
+
+<img src="J2T.jpg" height=400px />
+
 [](mdtoc)
 # Table of Contents
 
@@ -10,8 +13,6 @@
 * [Contributors](#contributors)
 [](/mdtoc)
 
-
-<img src="J2T.jpg" height=400px />
 
 # JSON 2 Tree
 A python library to create HTML tree view from JSON files.
