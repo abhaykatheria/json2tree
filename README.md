@@ -1,3 +1,15 @@
+[](mdtoc)
+# Table of Contents
+
+* [JSON 2 Tree](#json-2-tree)
+* [Getting Started](#getting-started)
+	* [Installation](#installation)
+	* [Usage](#usage)
+		* [Sample command](#sample-command)
+* [Themes](#themes)
+* [Contributors](#contributors)
+[](/mdtoc)
+
 
 <img src="J2T.jpg" height=400px />
 

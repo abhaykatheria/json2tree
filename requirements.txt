@@ -1,0 +1,1 @@
+-e git+https://github.com/abhaykatheria/json2tree.git@f4db69d5e5041fe2a56faf9377be8d18598b92a3#egg=json2tree
