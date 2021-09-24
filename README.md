@@ -19,11 +19,12 @@ A python library to create HTML tree view from JSON files.
 This can also be used as a command line tool for the same purpose.
 # Getting Started
 ## Installation
+- Install usig pip `pip install json2tree`
+	### or
 - Clone this repo by running following command
     ``` git clone https://github.com/abhaykatheria/json2tree ```
 - CD into the cloned repo
 - Install using following command ``` pip install . ```
-- Soon pip package will be released too.
 
 ## Usage
 You can invoke the cli with typing json2tree command.
