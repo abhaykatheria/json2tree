@@ -1,6 +1,7 @@
 
 <img src="J2T.jpg" height=400px />
-[![Downloads](https://pepy.tech/badge/json2tree)](https://pepy.tech/project/json2tree)
+<img src="
+https://static.pepy.tech/personalized-badge/json2tree?period=month&units=international_system&left_color=black&right_color=orange&left_text=Downloads">
 
 [](mdtoc)
 # Table of Contents
