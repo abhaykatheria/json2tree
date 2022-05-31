@@ -1,12 +1,14 @@
 
+# JSON 2 Tree [![Downloads](https://pepy.tech/badge/json2tree)](https://pepy.tech/project/json2tree)
+A python library to create HTML tree view from JSON files.
+This can also be used as a command line tool for the same purpose.
+
+
 <img src="J2T.jpg" height=400px />
-<img src="
-https://static.pepy.tech/personalized-badge/json2tree?period=month&units=international_system&left_color=black&right_color=orange&left_text=Downloads">
 
 [](mdtoc)
 # Table of Contents
 
-* [JSON 2 Tree](#json-2-tree)
 * [Getting Started](#getting-started)
 	* [Installation](#installation)
 	* [Usage](#usage)
@@ -15,10 +17,6 @@ https://static.pepy.tech/personalized-badge/json2tree?period=month&units=interna
 * [Contributors](#contributors)
 [](/mdtoc)
 
-
-# JSON 2 Tree
-A python library to create HTML tree view from JSON files.
-This can also be used as a command line tool for the same purpose.
 # Getting Started
 ## Installation
 - Install usig pip `pip install json2tree`
