@@ -1,22 +1,4 @@
-head = """
-<!DOCTYPE html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-
-%s
-</head>
-<body>
-<nav class="navbar sticky-top navbar-light bg-light">
-        <a class="navbar-brand" href="#">
-            <img src="https://raw.githubusercontent.com/abhaykatheria/json2tree/main/J2T.png" width="80" height="30" class="d-inline-block align-top" alt=""> JSON2tree
-        </a>
-    </nav>
-"""
+from .header import head
 from .js import js
 from .css import css
 
@@ -27,16 +9,11 @@ def list_handler(list_obj, indent,id):
     for i, _ in enumerate(list_obj):
         if isinstance(list_obj[i], dict):
             if "name" in list_obj[i].keys():
-                # html_string = html_string + '  '*indent + \
-                #     '<li><span class="caret">' + str(list_obj[i]["name"]) + \
-                #     ' : ' + '</span> \n '
                 html_string = html_string + '  '*indent + \
                     '<li><input type="checkbox" checked="checked" id="c%s" /><label for="c%s" class="tree_label">'%(str(id), str(id)) \
                         + str(list_obj[i]["name"]) +  \
                     '</label> \n '
             else:
-                # html_string = html_string + '  '*indent + \
-                #     '<li><span class="caret">' + str(i) + ' : ' + '</span> \n '
                 html_string = html_string + '  '*indent + \
                     '<li><input type="checkbox" checked="checked" id="c%s" /><label for="c%s" class="tree_label">'%(str(id), str(id)) \
                         + str(i) +  \
@@ -46,10 +23,6 @@ def list_handler(list_obj, indent,id):
             
             html_string = html_string + '  '*indent + '</li> \n '
         elif isinstance(list_obj[i], list):
-            # html_string = html_string + '  '*indent + \
-            #     '<li><span class="caret">' + str(i) + ' : ' + '</span> \n '
-            # html_string = html_string + '  '*indent + \
-            #     '<ul class ="nested"> \n '
             html_string = html_string + '  '*indent + \
                     '<li><input type="checkbox" checked="checked" id="c%s" /><label for="c%s" class="tree_label">'%(str(id), str(id)) \
                         + str(i) +  \
@@ -58,10 +31,6 @@ def list_handler(list_obj, indent,id):
             html_string = html_string + '  '*indent + \
                 '<ul> \n ' + list_handler(list_obj[i], indent+1,id+1) + \
                 '  '*indent + '</ul> \n ' + '  '*indent + '</li> \n '
-            
-            # html_string = html_string + list_handler(list_obj[i], indent+1)
-            # html_string = html_string + '  '*indent + '</ul> \n ' + \
-            #     '  '*indent + '</li>\n '
         else:
             html_string = html_string + '  '*indent + \
                     '<li><input type="checkbox" checked="checked" id="c%s" /><label for="c%s" class="tree_label">'%(str(id), str(id)) \

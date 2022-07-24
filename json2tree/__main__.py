@@ -6,7 +6,9 @@ from json2tree.theme_1 import html as html_1
 from json2tree.theme_2 import html as html_2
 import json
 
-def readJSON(file_path, theme):
+def generate(file_path, theme):
+    # this functions takes input json file and theme
+    # then returns the html string to be written in files
     f = open(file_path)
     json_data = json.load(f)
     html_string = ''
@@ -19,6 +21,8 @@ def readJSON(file_path, theme):
     return html_string
 
 def create_output_file(output_file_path, html_string):
+    # takes input html string generated then outputs into
+    # file path given by user
     with open(output_file_path, 'w') as f:
         f.write(html_string)
         f.close()
@@ -28,12 +32,13 @@ def run(args):
         if os.path.exists(args.json):
             if args.output_file is None:
                 sys.stderr.write("Output file not specified")
-            html_string = readJSON(args.json, args.theme)
+            html_string = generate(args.json, args.theme)
             create_output_file(args.output_file, html_string)        
         else:
             sys.stderr.write("Input file not specified")
 
 def main():
+    # main entery point
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         prog='json2tree',
