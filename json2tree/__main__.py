@@ -9,8 +9,10 @@ import json
 def generate(file_path, theme):
     # this functions takes input json file and theme
     # then returns the html string to be written in files
-    f = open(file_path)
-    json_data = json.load(f)
+    # f = open(file_path)
+    # json_data = json.load(f)
+    with open(file_path, 'r', encoding='utf-8') as f:
+        json_data = json.load(f)
     html_string = ''
     if(theme=='1'):
         html_string = html_1.create_html_report(json_data)
