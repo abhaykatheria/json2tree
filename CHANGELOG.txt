@@ -1,5 +1,14 @@
 Change Log
 ============
+0.2.0(Current Date - Replace with Actual)
+-----------------------------------------
+- Added `convert()` function for library usage (supports JSON string, dict, or file path as input; can return HTML string or write to file).
+- Refactored HTML generation logic into a base module (`html_base.py`) for improved maintainability and theme structure.
+- Optimized HTML string building processes in handlers for better performance.
+- Updated CLI (`__main__.py`) to use the new `convert()` library function.
+- Updated README with library usage instructions and development notes.
+- Updated `setup.py` to use `README.md` for long description and set version to 0.2.0.
+
 0.0.1(23/09/2021)
 -----------------
 - First Release
