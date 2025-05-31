@@ -58,9 +58,22 @@ def dict_handler(dict_obj, indent, current_id_val=0, **kwargs):
 
 def body_content_func_theme1(report_dict, indent, current_id_val=0):
     # This function will be called by base_create_html_report.
-    # It needs to match the expected signature: (data, indent_level, current_id_val, **kwargs)
-    # For theme 1, dict_handler starts with its own <ul class="nested">
-    return dict_handler(report_dict, indent, current_id_val=current_id_val)
+    # indent will be 0 as passed by the modified lambda.
+    if isinstance(report_dict, dict):
+        # dict_handler creates its own surrounding <ul class="nested">
+        return dict_handler(report_dict, indent, current_id_val=current_id_val)
+    elif isinstance(report_dict, list):
+        # list_handler returns a string of <li> items.
+        # These need to be wrapped in a <ul> if the root itself is a list.
+        # The content from this function is placed *inside* the "REPORT" <li>.
+        list_html, next_id = list_handler(report_dict, indent, current_id_val=current_id_val)
+        # Since list_handler itself does not add the outer ul for the root list case.
+        return f"<ul class='nested'>\n{list_html}</ul>\n", next_id
+    else:
+        # Fallback for simple types as root. Wrap in <li> to fit theme structure.
+        # This will be placed inside the "REPORT" <li>.
+        escaped_report_dict = str(report_dict).replace('<', '&lt;').replace('>', '&gt;')
+        return f"<li><span class='text-c'>{escaped_report_dict}</span></li>", current_id_val
 
 
 def create_html_report(report_dict, title="Report"):
@@ -70,22 +83,14 @@ def create_html_report(report_dict, title="Report"):
     def root_li_content_theme1(current_id):
         # Theme 1's root is simple, no IDs needed in its content.
         # Returns the HTML for inside the first <li>, and the next id.
-        return '<li><span class="caret">REPORT</span>', current_id
-
-    # Adjust body_content_func to match new signature if necessary
-    # dict_handler for theme1 already returns html_string, next_id
-    # The lambda below ensures correct parameters are passed.
-    # indent + 1 because dict_handler expects to be inside a list item.
-
-    # The base_create_html_report now handles the full page up to </html>
-    # It also handles the outermost <ul> itself.
-    # body_content_func (dict_handler for theme1) will be placed inside the root <li>
+        return '<li><span class="caret">REPORT</span>', current_id # This <li> is closed by base_create_html_report
 
     full_html = base_create_html_report(
         report_dict,
         title=title,
         head_content=head_content,
-        body_content_func=lambda rd, ind, cid: body_content_func_theme1(rd, ind + 1, cid),
+        # Pass indent as is (0), body_content_func_theme1 now handles it correctly for root elements
+        body_content_func=lambda rd, ind, cid: body_content_func_theme1(rd, ind, cid),
         root_ul_tag_and_class='ul class="myUL"', # Tag and class for the outermost <ul>
         root_li_content_func=root_li_content_theme1, # Function to generate root li content
         initial_id=0 # Theme 1 doesn't use IDs, so this is nominal.
