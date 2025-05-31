@@ -56,19 +56,24 @@ def dict_handler(dict_obj, indent, current_id_val=0, **kwargs):
     return "".join(html_parts), next_id
 
 
-def body_content_func_theme1(report_dict, indent, current_id_val=0):
+# Added **kwargs to signature
+def body_content_func_theme1(report_dict, indent, current_id_val=0, **kwargs):
     # This function will be called by base_create_html_report.
     # indent will be 0 as passed by the modified lambda.
     if isinstance(report_dict, dict):
         # dict_handler creates its own surrounding <ul class="nested">
-        return dict_handler(report_dict, indent, current_id_val=current_id_val)
+        return dict_handler(report_dict, indent, current_id_val=current_id_val, **kwargs)
     elif isinstance(report_dict, list):
         # list_handler returns a string of <li> items.
-        # These need to be wrapped in a <ul> if the root itself is a list.
-        # The content from this function is placed *inside* the "REPORT" <li>.
-        list_html, next_id = list_handler(report_dict, indent, current_id_val=current_id_val)
-        # Since list_handler itself does not add the outer ul for the root list case.
-        return f"<ul class='nested'>\n{list_html}</ul>\n", next_id
+        # Reinstate wrapping these in a <ul> as per subtask.
+        # Theme 1 uses 'nested' class for such ULs.
+        list_html, next_id = list_handler(report_dict, indent, current_id_val=current_id_val, **kwargs)
+        # Use the 'nested' class, consistent with Theme 1 styling for nested lists.
+        # The kwargs.get("nested_list_class", "nested") from the example isn't strictly necessary
+        # here if we know Theme 1 always uses "nested", but good for robustness if it were more dynamic.
+        # For Theme 1, nested_list_class is 'nested'.
+        html_string = f"<ul class='nested'>\n{list_html}</ul>\n"
+        return html_string, next_id
     else:
         # Fallback for simple types as root. Wrap in <li> to fit theme structure.
         # This will be placed inside the "REPORT" <li>.
@@ -89,8 +94,17 @@ def create_html_report(report_dict, title="Report"):
         report_dict,
         title=title,
         head_content=head_content,
-        # Pass indent as is (0), body_content_func_theme1 now handles it correctly for root elements
-        body_content_func=lambda rd, ind, cid: body_content_func_theme1(rd, ind, cid),
+        body_content_func=lambda rd, ind, cid: body_content_func_theme1(
+            rd, ind, cid,
+            # These are the key kwargs Theme 1 relies on for its specific styling
+            # when base_handlers are invoked without item_prefix_func.
+            caret_span_class="caret",
+            text_class="text-c",
+            nested_list_class="nested", # Used by body_content_func_theme1 for root list
+            dict_key_class="text-h",    # For dict_handler
+            dict_value_class="text-c",# For dict_handler
+            show_list_len=True          # For dict_handler (when value is list) & list_handler (when item is list)
+        ),
         root_ul_tag_and_class='ul class="myUL"', # Tag and class for the outermost <ul>
         root_li_content_func=root_li_content_theme1, # Function to generate root li content
         initial_id=0 # Theme 1 doesn't use IDs, so this is nominal.
