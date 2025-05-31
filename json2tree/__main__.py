@@ -62,7 +62,7 @@ def run(args):
     #     sys.stderr.write(f"An unexpected error occurred: {e}\n")
 
 def main():
-    # main entery point
+    # --- Restore argparse ---
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         prog='json2tree',
@@ -82,10 +82,14 @@ def main():
     parser.add_argument('-v', '--version', action='version',
                         version="{ver_str}\n   python version = {py_v}".format(
                             ver_str="0.2.0", py_v=py_ver)) # Updated version string here
-
     args, unknown = parser.parse_known_args()
+
+
 
     if sys.version_info < (3, 0):
         sys.stderr.write("Errrrrrrr.....Please run on Python 3.7+")
     else:
         run(args)
+
+if __name__ == "__main__":
+    main()

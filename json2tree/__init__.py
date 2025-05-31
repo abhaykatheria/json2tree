@@ -42,21 +42,26 @@ def convert(json_input, theme='1', output_file=None):
     json_data = None
 
     if isinstance(json_input, str):
-        if os.path.exists(json_input): # Check if it's a file path
-            # Use the generate function from __main__ if available and it handles file paths
-            # For direct file handling:
+        # Heuristic: if it starts with { or [, it's likely a JSON string. Otherwise, could be a path.
+        # This isn't foolproof but covers many common cases.
+        is_likely_json_payload = json_input.strip().startswith(("{", "["))
+
+        if os.path.exists(json_input):
             try:
                 with open(json_input, 'r', encoding='utf-8') as f:
                     json_data = json.load(f)
-            except FileNotFoundError:
-                raise ValueError(f"Input file not found: {json_input}")
-            except json.JSONDecodeError:
+            except json.JSONDecodeError: # File exists but is not valid JSON
                 raise ValueError(f"Invalid JSON in file: {json_input}")
-        else: # Assume it's a JSON string
+            # FileNotFoundError here would be a race condition if os.path.exists was true moments before.
+            # Python's default FileNotFoundError would propagate.
+        elif is_likely_json_payload: # Not a file path, but looks like a JSON string
             try:
                 json_data = json.loads(json_input)
-            except json.JSONDecodeError as e:
-                raise ValueError(f"Invalid JSON string provided: {e}")
+            except json.JSONDecodeError as e: # Does look like JSON but is malformed
+                raise ValueError(f"Malformed JSON string provided: {e}")
+        else: # Not an existing file path, and not starting like a JSON payload.
+              # Treat as a non-existent file path or invalid input.
+            raise ValueError(f"Input string '{json_input}' is not an existing file path and not a recognizable JSON string.")
     elif isinstance(json_input, dict):
         json_data = json_input
     else:
@@ -73,13 +78,21 @@ def convert(json_input, theme='1', output_file=None):
         html_string = html_1.create_html_report(json_data)
 
     if output_file:
-        # Use create_output_file from __main__ if available and it handles writing
-        # For direct file writing:
+        # Debug prints
+        print(f"DEBUG: Attempting to write to output_file: {output_file}")
+        print(f"DEBUG: Length of html_string: {len(html_string)}")
+        if len(html_string) < 200: # Print a snippet if short
+            print(f"DEBUG: HTML_STRING (snippet): {html_string[:100]}...{html_string[-50:]}")
+        else:
+            print(f"DEBUG: HTML_STRING (snippet): {html_string[:100]}...{html_string[-100:]}")
+
         try:
             with open(output_file, 'w', encoding='utf-8') as f:
                 f.write(html_string)
+            print(f"DEBUG: Successfully wrote to {output_file}") # Confirm write
             return None # Function signature implies None when writing to file
-        except IOError:
+        except IOError as e:
+            print(f"DEBUG: IOError during write: {e}") # Debug IOError
             # Consider how to handle IOErrors, e.g., re-raise or log
             raise IOError(f"Could not write to output file: {output_file}")
     else:

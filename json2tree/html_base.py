@@ -92,7 +92,7 @@ def base_dict_handler(data, indent_level, dict_item_tag, dict_key_class, dict_va
             else: # Theme 2 specific for simple value
                 # For theme 2, simple values are wrapped in <ul><li><span class="tree_label">value</span></li></ul>
                 # The item_prefix_func handles the outer parts. Here we add the specific value formatting.
-                 html_parts.append(f"<ul><li><span class='{kwargs.get(\"text_class\", \"\")}'>{value}</span></li></ul>")
+                html_parts.append(f"<ul><li><span class='{kwargs.get('text_class', '')}'>{value}</span></li></ul>")
 
 
         suffix = item_suffix_func(item_id) if item_suffix_func else f"</{dict_item_tag}>"
@@ -106,7 +106,8 @@ def base_create_html_report(report_dict, title, head_content, body_content_func,
     It also returns the next id to be used.
     """
     root_li_html, next_id = root_li_content_func(initial_id)
-    html_content, _ = body_content_func(report_dict, 0, current_id_val=next_id) # body_content_func should now also return next_id
+    # The lambda functions in themes expect 'cid' as the parameter name for current_id_val
+    html_content, _ = body_content_func(report_dict, 0, cid=next_id) # body_content_func should now also return next_id
 
     return f"""
 <!DOCTYPE html>
